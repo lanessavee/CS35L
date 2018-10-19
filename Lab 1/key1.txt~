@@ -1,0 +1,18 @@
+Vanessa Lee
+504766034
+CS 35L Lab 2
+
+Laboratory: Linux and Emacs scavenger hunt
+1. man -k; I used the command "man man" and read through it.
+
+2. mv is located at: /usr/local/cs/bin/mv. sh is located at: /usr/bin/sh. I used the commands "whereis mv" and "whereis sh".
+
+3. ar - create, modify, and extract from archives; pr - convert text files for printing; tr - translate or delete characters
+Commands used:
+man find
+find /usr/bin -name '?r'
+man ar
+man pr
+man tr
+
+4.

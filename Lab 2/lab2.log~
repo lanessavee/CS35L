@@ -1,0 +1,51 @@
+Vanessa Lee
+504766034
+Lab 2
+
+Before proceeding, I changed my locale using 'export LC_ALL='C''. I saved the words file as 'words' and the assignment web page as 'assign2.html'.
+
+After running the command, 'tr -c 'A-Za-z' '[\n*]' < assign2.html. Option -c means the complement of the set provided. The command will replace anything that is NOT an alphabetical letter with a new line. The resulting output is that the HTML document is only left with alphabetical characters and all symbols such as, '<', '>', etc are removed.
+
+The command 'tr -cs 'A-Za-z' '[\n*]' < assign2.html' adds another option 's'. 's', according to the man pages, 'squeezes multiple occurances of the characters listed in the last operand (either string1 or string2) in the input into a single instance of the character. This allows all of the new line characters to be condensed in a single new line character. The first command outputed words with multiple new lines but this command eliminates the multiple new lines into one. The words are now displayed one after another on a single new line.
+
+'tr -cs 'A-Za-z' '[\n*]' | sort < assign2.html' sorts all the lines in ascending order. It put all of the new lines at the beginning and ends with the line that starts with 'y'.
+
+'tr -cs 'A-Za-z' '[\n*]' | sort -u < assign2.html' surpressed all the new lines into a single new line and sorted the file.
+
+'tr -cs 'A-Za-z' '[\n*]' | sort -u | comm - words' compares the words in the words file and the HTML file and see which words they have in common. The words specific to the HTML file appears in column 1, the words specific to the words file appears in column 2. The words that appear in both files appears in column 3. Column 2 has significantly more words than column 1 or 3.
+
+'tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words' only includes words that appear in file 1 only. The option '-23' surpressed columns 2 and 3 which is why we only see column 1.
+
+To start off my buildwords script, the first line is '!# /bin/bash' to tell the interpreter which language I am using, which is bash.
+
+First, I want to remove every EXCEPT the words, which includes but is not limited to HTML tags and the footer at the bottom of the webpage. To do this, I used the command:
+grep '<td>.\{1,\}<\/td>'
+What this command does is grabs only what is being encased in the tags <td></td>. Now, all I am left with are <td>english word</td> and <td>hawaiian word</td>. Now I want to remove <td>english word</td> because I only want Hawaiian words at the end of all this. I noticed that the formatting is english word then on a new line under it is a hawaiian word. I used the command:
+sed '1~2d'
+This command deletes every other line starting from line 1. For example, lines 1 and 3 will be deleted but not line 2. This effectively removed all of the lines containing english words.
+
+What I have now is <td>hawaiian word</td>. But I don't want to keep the HTML tags like <td></td>, <u></u>. I used the command:
+sed 's/<[^>]*>//g'
+This command substitues all tags with nothing, which is essentially removing them. Now, all I have are the Hawaiian words with no HTML tags.
+
+My next step is to format the Hawaiian words to follow what is required by the assignment. First, all uppercase letters are to be treated as lowercase letters. To do this, I used the command: tr "A-Z" "a-z"
+
+My next step is to change all of the ASCII grave accents to apostrophes.I used to command: tr "\`" "\'". The backslashes are there so the special functions of the ` and the ' are ignored and are treated as regular characters.
+
+I had to figure out a way to separate the Hawaiian words that were separated by a comma followed by a space OR with a space in between the words. Those words are to be treated as two separate words. I used the command: tr ',\s \s' '\n'. It searches for the sequences with a comma followed by a space or with a single space and replaces them with a new line. 
+
+Next, I needed to get rid of the spaces that came in front of the Hawaiian words. To do that I used the command: sed "s/^\s*//g". This essentially looked for lines that started with a space and replaced them (up to any number) with nothing.
+
+Then, I had to make sure only entries that contained Hawaiian characters were allowed. There were some entries that contained '?' or a '-', so to remove those entries I used the command: grep "^[pk\' mnwlhaeiou]\{1,\}$". Initially I used the command 'sed "/[^pk'mnwlhaeiou]/d". The carat inside the braces acted like a negation operator, so it would delete anything that did not contain those characters.
+
+Finally, I sorted the file using 'sort -u'. The option -u removes any duplicate entries.
+
+I tried to run the command: './buildwords < hwnwdseng.htm > hwords' but it gave me permission error. To modify the permission of buildwords, I used: 'chmod u+x buildwords'.
+
+I used the command: tr 'PKMNWLHAEIOU' 'pkmnwlhaeiou' < assign2.html to turn all the capital letters into lowercase letters. Then I ran the command: 'tr -cs "pk\' mnwlhaeiou" '[\n*]' | sort -u | comm -23 - hwords | wc -l'. What this does is it takes everything that isn't a Hawaiian letter and turns it into a new line. Then it sorts it and removes duplicates at the same time. Next, it compares it to the file hwords (which contains all the Hawaiian words) and it surpresses columns 2 and 3 so that only words that appear in the web page will appear. Those words are the words that are considered misspelled. 'wc -l' counts the lines that are outputted and the number is 365.
+
+Next I used the command 'tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u | comm -23 - words | wc -l' to see the number of words on the webpage that were not in the English dictionary. That number is 81. 
+
+I saved the outputs of the Hawaiian misspelled words and the English misspelled words into two different text files. I ran the command 'comm -23 engmis.txt hawamis.txt | wc -l' to see the number of mispelled English words. The total was 75. Some examples are: eggert, html, buildwords, and sameln.
+
+Next I ran the command 'comm -13 engmis.txt hawamis.txt | wc -l' to find the number of mispelled Hawaiian words. The total was 359. Some examples are: alen, all, okina, and unna.

@@ -1,0 +1,6 @@
+#Vanessa Lee
+#UID: 504766034
+#TA: Mevlut Turker Garip
+
+#! /bin/bash
+grep '<td>.\{1,\}<\/td>' | sed '1~2d' | sed 's/<[^>]*>//g' | tr "A-Z" "a-z" | tr "\`" "\'" | tr ',\s \s' '\n' | sed "s/^\s*//g" | grep "^[pk\' mnwlhaeiou]\{1,\}$" | sort -u

@@ -1,0 +1,87 @@
+Vanessa Lee
+504766034
+CS 35L Lab 2
+
+Laboratory: Linux and Emacs scavenger hunt
+1. man -k; I used the command "man man" and read through it.
+
+2. mv is located at: /usr/local/cs/bin/mv. sh is located at: /usr/bin/sh.
+Commands used:
+whereis mv
+whereis sh
+
+3. ar - create, modify, and extract from archives; pr - convert text files for printing; tr - translate or delete characters
+Commands used:
+man find
+find /usr/bin -name '?r'
+man ar
+man pr
+man tr
+
+4. /etc/alternatives/emacs
+Commands used:
+man -k symbolic
+man readlink
+readlink /usr/bin/emacs
+
+5./usr/bin/gcc: version:; gcc: version 8.2.0. They are different programs because 
+
+6. chmod u+sx: User can execute and set user ID on execution; chmod o-w: remove write permission from 'others' (not owner of file or group members). 
+Commands used:
+man chmod
+
+7. find /usr/local/cs -mtime 28 -type d
+Commands used:
+man find
+find /usr/local/cs -mtime 28 -type d
+
+8. 1944
+Commands used:
+man find
+cd /usr/local/cs
+man -k count
+man wc
+find -type l | wc -l
+
+9. librom1394.so.0.3.0
+Commands used:
+cd /usr/lib64
+man ls
+ls -t
+
+10. The locale gets its information "based on the settings of the environment variables that control the locale".
+Commands used:
+man locale
+
+11. downcase-dwim, downcase-region, downcase-word
+Commands used:
+emacs
+C-h ?
+C-h a
+downcase
+
+12. C-M-r: runs the command isearch-backward-regexp; C-M-v: runs the comman scroll-other-window
+Commands used:
+C-h ?
+C-h c
+C-M-r
+
+13. C-g runs the command keyboard-quit. When you are typing a command in the textbox at the bottom, but suddenly decide to change your mind, you can run C-g to exit the bottom text box and return the cursor back to the main text editor.
+Commands used:
+C-h c
+C-g
+
+14. The yank command acts like paste. It pastes text that was last deleted/killed. The command for it is C-y.
+Commands used:
+C-h a
+yank
+
+15. Dired displays hidden directories that ls -l does not display.
+Commands used:
+emacs
+C-h a
+dired
+C-x d /usr/bin
+man ls
+cd /usr/bin
+ls -l
